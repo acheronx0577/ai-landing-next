@@ -1,5 +1,6 @@
 "use client";
 
+import { SECTION_FAQ_TOP } from "@/components/landing/layout";
 import { useLenis } from "lenis/react";
 import { useEffect, useId, useState } from "react";
 
@@ -71,7 +72,8 @@ export default function FaqSection() {
   return (
     <div
       id="docs"
-      className="absolute content-stretch flex flex-col gap-[76px] items-center left-[274px] top-[3694px] w-[891.995px]"
+      className="absolute content-stretch flex flex-col gap-[76px] items-center left-[274px] w-[891.995px]"
+      style={{ top: SECTION_FAQ_TOP }}
       data-name="FAQ-Section"
     >
       <div className="[word-break:break-word] content-stretch flex flex-col gap-[29px] items-center not-italic relative shrink-0 text-center w-[830px]">

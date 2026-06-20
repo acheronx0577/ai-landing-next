@@ -2,6 +2,7 @@
 
 import CliInstallBox from "@/components/landing/CliInstallBox";
 import ScrollCta from "@/components/landing/ScrollCta";
+import TerminalPreview from "@/components/landing/TerminalPreview";
 
 export default function HeroSection() {
   return (
@@ -26,7 +27,7 @@ export default function HeroSection() {
         <span className="leading-[88px]">.</span>
       </p>
 
-      <p className="[word-break:break-word] w-[720px] shrink-0 text-center font-['Sk-Modernist:Regular',sans-serif] text-[22px] not-italic leading-[normal] text-[rgba(255,255,255,0.7)]">
+      <p className="[word-break:break-word] w-full max-w-[920px] shrink-0 text-center font-['Sk-Modernist:Regular',sans-serif] text-[22px] not-italic leading-[normal] text-[rgba(255,255,255,0.7)]">
         LLM Claude is a terminal AI coding assistant with Read, Write, Bash, LSP
         tools, and ACP editor integration—built for Groq, OpenRouter, and your
         workflow.
@@ -34,12 +35,14 @@ export default function HeroSection() {
 
       <CliInstallBox />
 
-      <div className="content-stretch flex gap-[23px] items-center relative shrink-0">
+      <div className="content-stretch flex w-full max-w-[920px] gap-[23px] items-center justify-center relative shrink-0">
         <ScrollCta target="services">See features</ScrollCta>
         <ScrollCta target="pricing" variant="outline">
           Run modes
         </ScrollCta>
       </div>
+
+      <TerminalPreview />
     </div>
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 export const LLM_CLAUDE_REPO = "https://github.com/acheronx0577/LLM-Claude.git";
-export const LLM_CLAUDE_INSTALL = `git clone ${LLM_CLAUDE_REPO}`;
+const LLM_CLAUDE_INSTALL = `git clone ${LLM_CLAUDE_REPO}`;
 
 function CopyIcon() {
   return (
@@ -64,23 +64,23 @@ export default function CliInstallBox() {
   };
 
   return (
-    <div className="flex w-full max-w-[720px] flex-col items-center gap-[10px]">
-      <div className="relative w-full rounded-[12px] border border-[#ff541f] bg-[rgba(0,0,0,0.45)] p-[4px] shadow-[0_0_24px_rgba(255,84,31,0.12)]">
-        <div className="flex items-center gap-[14px] rounded-[8px] bg-[#0a0a0a] px-[18px] py-[16px]">
+    <div className="flex flex-col items-center gap-[10px]">
+      <div className="relative w-fit max-w-full rounded-[12px] border border-[#ff541f] bg-[rgba(0,0,0,0.45)] p-[3px] shadow-[0_0_24px_rgba(255,84,31,0.12)]">
+        <div className="flex items-center gap-[10px] rounded-[8px] bg-[#0a0a0a] px-[14px] py-[11px]">
           <button
             type="button"
             onClick={handleCopy}
             aria-label={copied ? "Copied to clipboard" : "Copy install command"}
-            className="flex shrink-0 cursor-pointer items-center justify-center rounded-[6px] p-[6px] text-[rgba(255,255,255,0.65)] transition-colors duration-200 hover:bg-white/5 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff541f]"
+            className="flex shrink-0 cursor-pointer items-center justify-center rounded-[6px] p-[5px] text-[rgba(255,255,255,0.65)] transition-colors duration-200 hover:bg-white/5 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff541f]"
           >
             {copied ? <CheckIcon /> : <CopyIcon />}
           </button>
-          <code className="min-w-0 flex-1 overflow-x-auto font-['Consolas','Monaco','Courier_New',monospace] text-[15px] leading-[22px] text-[rgba(255,255,255,0.92)] whitespace-nowrap">
+          <code className="whitespace-nowrap font-['Consolas','Monaco','Courier_New',monospace] text-[14px] leading-[20px] text-[rgba(255,255,255,0.92)]">
             {LLM_CLAUDE_INSTALL}
           </code>
         </div>
       </div>
-      <p className="font-['Sk-Modernist:Regular',sans-serif] text-[14px] text-[rgba(255,255,255,0.45)]">
+      <p className="max-w-[920px] text-center font-['Sk-Modernist:Regular',sans-serif] text-[14px] text-[rgba(255,255,255,0.45)]">
         Supported on Windows, macOS, and Linux · then{" "}
         <code className="text-[rgba(255,255,255,0.65)]">bun install</code> and{" "}
         <code className="text-[rgba(255,255,255,0.65)]">.\run.ps1</code>

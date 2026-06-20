@@ -1,6 +1,7 @@
 "use client";
 
 import { useLenis } from "lenis/react";
+import type Lenis from "lenis";
 import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 
 function subscribe(callback: () => void) {
@@ -18,27 +19,33 @@ function getReducedMotionServerSnapshot() {
 }
 
 type UseScrollLinkedMarqueeOptions = {
+  /** Multiplier on scroll delta — higher = faster left → right on scroll down. */
   scrollSpeed?: number;
-  /** Pixels per second when idle (left → right). */
+  /** Pixels per second when idle (flows left → right). */
   idleSpeed?: number;
   idleDelayMs?: number;
 };
 
 export function useScrollLinkedMarquee({
-  scrollSpeed = 0.42,
-  idleSpeed = 32,
-  idleDelayMs = 140,
+  scrollSpeed = 1.15,
+  idleSpeed = 28,
+  idleDelayMs = 160,
 }: UseScrollLinkedMarqueeOptions = {}) {
   const trackRef = useRef<HTMLDivElement>(null);
   const loopWidthRef = useRef(0);
   const offsetRef = useRef(0);
   const lastScrollRef = useRef<number | null>(null);
   const lastScrollTimeRef = useRef(0);
+  const lenisRef = useRef<Lenis | null>(null);
   const reducedMotion = useSyncExternalStore(
     subscribe,
     getReducedMotionSnapshot,
     getReducedMotionServerSnapshot,
   );
+
+  useLenis((lenis) => {
+    lenisRef.current = lenis;
+  });
 
   const wrapOffset = useCallback(() => {
     const loopWidth = loopWidthRef.current;
@@ -70,24 +77,6 @@ export function useScrollLinkedMarquee({
     return () => observer.disconnect();
   }, [applyTransform]);
 
-  useLenis((lenis) => {
-    if (reducedMotion) return;
-
-    if (lastScrollRef.current === null) {
-      lastScrollRef.current = lenis.scroll;
-      lastScrollTimeRef.current = performance.now();
-      return;
-    }
-
-    const delta = lenis.scroll - lastScrollRef.current;
-    if (delta !== 0) {
-      lastScrollRef.current = lenis.scroll;
-      lastScrollTimeRef.current = performance.now();
-      offsetRef.current -= delta * scrollSpeed;
-      applyTransform();
-    }
-  });
-
   useEffect(() => {
     if (reducedMotion) return;
 
@@ -98,17 +87,31 @@ export function useScrollLinkedMarquee({
       const dt = Math.min(now - lastTime, 32);
       lastTime = now;
 
-      if (now - lastScrollTimeRef.current >= idleDelayMs) {
-        offsetRef.current += (idleSpeed * dt) / 1000;
-        applyTransform();
+      const lenis = lenisRef.current;
+      if (lenis) {
+        if (lastScrollRef.current === null) {
+          lastScrollRef.current = lenis.scroll;
+        }
+
+        const delta = lenis.scroll - lastScrollRef.current;
+        lastScrollRef.current = lenis.scroll;
+
+        if (Math.abs(delta) > 0.001) {
+          // Scroll down (delta > 0) accelerates left → right; scroll up reverses.
+          offsetRef.current += delta * scrollSpeed;
+          lastScrollTimeRef.current = now;
+        } else if (now - lastScrollTimeRef.current >= idleDelayMs) {
+          offsetRef.current += (idleSpeed * dt) / 1000;
+        }
       }
 
+      applyTransform();
       frame = requestAnimationFrame(tick);
     };
 
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [reducedMotion, idleSpeed, idleDelayMs, applyTransform]);
+  }, [reducedMotion, scrollSpeed, idleSpeed, idleDelayMs, applyTransform]);
 
   useEffect(() => {
     if (!reducedMotion) return;

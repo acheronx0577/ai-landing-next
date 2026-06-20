@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* Sk-Modernist is a premium font not available on Google Fonts.
+   Map it to Inter as the closest available substitute. */
+@font-face {
+  font-family: 'Sk-Modernist';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Inter'), local('Inter-Regular');
+}
+
+@font-face {
+  font-family: 'Sk-Modernist';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Inter'), local('Inter-Bold');
+}
+
+/* Tailwind v4 arbitrary font-family values like font-['Sk-Modernist:Regular',sans-serif]
+   need the family name registered */
+:root {
+  --font-sk-modernist: 'Sk-Modernist', 'Inter', sans-serif;
+}

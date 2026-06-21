@@ -7,7 +7,11 @@
     "dev:convex": "convex dev",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint . --max-warnings 0"
+    "lint": "eslint . --max-warnings 0",
+    "env:push": "node scripts/push-env.mjs",
+    "env:push:vercel": "node scripts/push-env.mjs --vercel-only",
+    "env:push:convex": "node scripts/push-env.mjs --convex-only",
+    "env:pull:vercel": "vercel env pull .env.vercel.local"
   },
   "dependencies": {
     "convex": "^1.41.0",

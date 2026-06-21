@@ -11,11 +11,12 @@ const TIPS = [
 
 const MASCOT_WIDTH = 14;
 
+/** Pixel mascot from LLM-Claude app/tui/mascot.ts (idle open frame). */
 const MASCOT = [
-  "  ／l、",
+  " ／l、",
   "（ﾟ､ ｡ ７",
-  "  l  ~ヽ",
-  "  じしf_,)ノ",
+  " l ~ ヽ",
+  " じしf_,)ノ",
 ].map((line) => line.padEnd(MASCOT_WIDTH));
 
 const TRANSCRIPT = [
@@ -91,7 +92,7 @@ function Mono({
 }) {
   return (
     <span
-      className={`font-sans text-[12.5px] leading-[20px] ${className}`}
+      className={`font-mono text-[12.5px] leading-[20px] ${className}`}
     >
       {children}
     </span>
@@ -114,14 +115,28 @@ function DashboardRow({
   );
 }
 
-function HorizontalFill() {
+function HorizontalFill({
+  char = "━",
+  className = "text-white",
+}: {
+  char?: string;
+  className?: string;
+}) {
   return (
     <span
-      className="block min-w-0 flex-1 overflow-hidden whitespace-nowrap font-sans text-[12.5px] leading-[20px] text-white"
+      className={`block min-w-0 flex-1 overflow-hidden whitespace-nowrap font-mono text-[12.5px] leading-[20px] ${className}`}
       aria-hidden
     >
-      {"━".repeat(500)}
+      {char.repeat(500)}
     </span>
+  );
+}
+
+function HorizontalRule() {
+  return (
+    <div className="flex w-full overflow-hidden" aria-hidden>
+      <HorizontalFill char="─" className="text-[rgba(255,255,255,0.28)]" />
+    </div>
   );
 }
 
@@ -178,9 +193,12 @@ export default function TerminalPreview() {
               <DashboardRow
                 left={
                   <div className="flex justify-center py-[2px]">
-                    <div className="space-y-px">
+                    <div className="w-[14ch] space-y-px">
                       {MASCOT.map((line, index) => (
-                        <Mono key={index} className="block text-[#6ee7ff] whitespace-pre">
+                        <Mono
+                          key={index}
+                          className="block text-[#6ee7ff] whitespace-pre"
+                        >
                           {line}
                         </Mono>
                       ))}
@@ -238,9 +256,7 @@ export default function TerminalPreview() {
           </div>
 
           <div className="mt-[12px] space-y-[4px] px-[4px]">
-            <Mono className="block text-[rgba(255,255,255,0.28)]">
-              {"─".repeat(58)}
-            </Mono>
+            <HorizontalRule />
 
             {TRANSCRIPT.map((entry) => (
               <TranscriptLine

@@ -1,6 +1,6 @@
 # AI Landing Page
 
-Next.js landing page built from a [Figma Make template](https://www.figma.com/design/ZTIyTbYFe5nvvHUmC3p80f/Convert-Template-to-Code). Includes smooth Lenis scrolling, interactive FAQ accordion, pricing toggle, and section navigation.
+Next.js landing page. Includes smooth Lenis scrolling, interactive FAQ accordion, pricing toggle, and section navigation.
 
 ## Stack
 
